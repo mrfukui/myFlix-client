@@ -3,6 +3,10 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
 export const MainView = () => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
+  const [user, setUser] = useState(storedUser? storedUser : null);
+  const [token, setToken] = useState(null);
   const [movies, setMovies] = useState([
     // {
     //   id: 1,
@@ -32,10 +36,28 @@ export const MainView = () => {
 
   const [selectedMovie, setSelectedMovie] = useState(null);
 
+  if (!user) {
+    return (
+      <LoginView
+        onLoggedIn={(user, token) => {
+          setUser(user);
+          setToken(token);
+        }}
+      />
+    );
+  }
+
   useEffect(() => {
-    fetch("https://my-flix-fukui-fbfc1615b505.herokuapp.com/movies")
+    if (!token) {
+      return;
+    }
+
+    fetch("https://my-flix-fukui-fbfc1615b505.herokuapp.com/movies", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         const moviesFromApi = data.map((doc) => {
           return {
             id: doc._id,
@@ -48,7 +70,7 @@ export const MainView = () => {
         });
         setMovies(moviesFromApi);
       });
-  }, []);
+  }, [token]);
 
   if (selectedMovie) {
     return (
@@ -71,6 +93,7 @@ export const MainView = () => {
         }}
         />
       ))}
+      <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
     </div>
   );
 };

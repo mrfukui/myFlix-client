@@ -3,39 +3,15 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+import { Row, Col, Container, Button, Card, CardGroup } from "react-bootstrap";
+import "./main-view.scss";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
-  const [user, setUser] = useState(storedUser? storedUser : null);
+  const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(null);
-  const [movies, setMovies] = useState([
-    // {
-    //   id: 1,
-    //   title: 'Howl`s Moving Castle',
-    //   description: 'When an unconfident young woman is cursed with an old body by a spiteful witch, her only chance of breaking the spell lies with a self-indulgent yet insecure young wizard and his companions in his legged, walking castle.',
-    //   director: 'Hayao Miyazaki',
-    //   genre: 'Animated',
-    //   image: 'https://m.media-amazon.com/images/M/MV5BNmM4YTFmMmItMGE3Yy00MmRkLTlmZGEtMzZlOTQzYjk3MzA2XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg'
-    // },
-    // {
-    //   id: 2,
-    //   title: 'Parasite',
-    //   description: 'Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.',
-    //   director: 'Bong Joon Ho',
-    //   genre: 'Thriller',
-    //   image: 'https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_.jpg'
-    // },
-    // {
-    //   id: 3,
-    //   title: 'Eternal Sunshine of the Spotless Mind',
-    //   description: 'When their relationship turns sour, a couple undergoes a medical procedure to have each other erased from their memories forever.',
-    //   director: 'Michel Gondry',
-    //   genre: 'Sci-Fi',
-    //   image: 'https://m.media-amazon.com/images/M/MV5BYjQ1ZWFlZDQtZDhjOS00NjdmLTg1MzEtYjM0MzM0MGIxYTU5XkEyXkFqcGdeQXVyMTEyMDcwNw@@._V1_.jpg'
-    // }
-  ]);
-
+  const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
@@ -44,7 +20,7 @@ export const MainView = () => {
     }
 
     fetch("https://my-flix-fukui-fbfc1615b505.herokuapp.com/movies", {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -56,50 +32,62 @@ export const MainView = () => {
             description: doc.description,
             image: doc.imageurl,
             genre: doc.genre.name,
-            director: doc.director.name
+            director: doc.director.name,
           };
         });
         setMovies(moviesFromApi);
       });
   }, [token]);
 
-  if (!user) {
-    return (
-      <>
-      <LoginView
-        onLoggedIn={(user, token) => {
-          setUser(user);
-          setToken(token);
-        }}
-      />
-      or
-      <SignupView />
-      </>
-    );
-  }
-
-  if (selectedMovie) {
-    return (
-      <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
-    );
-  }
-
-  if (movies.length === 0) {
-    return <div>The list is empty!</div>;
-  }
-
   return (
-    <div>
-      {movies.map((movie) => (
-        <MovieCard
-        key={movie.id}
-        movie={movie}
-        onMovieClick={(newSelectedMovie) => {
-          setSelectedMovie(newSelectedMovie);
-        }}
-        />
-      ))}
-      <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
-    </div>
+    <Container>
+      <Row className="justify-content-md-center">
+        {!user ? (
+          <Col md={10} lg={8} xl={6}>
+            <h1 className="centered-title">Fukui's Flixes</h1>
+            <div className="my-4"></div>
+            <LoginView
+              onLoggedIn={(user, token) => {
+                setUser(user);
+                setToken(token);
+              }}
+            />
+            <div className="my-4"></div>
+            <SignupView />
+          </Col>
+        ) : selectedMovie ? (
+          <Col xs={10} sm={8} md={6}>
+            <MovieView
+              movie={selectedMovie}
+              onBackClick={() => setSelectedMovie(null)}
+            />
+          </Col>
+        ) : movies.length === 0 ? (
+          <div>The list is empty!</div>
+        ) : (
+          <>
+            {movies.map((movie) => (
+              <Col key={movie.id} xs={6} sm={4} md={3} className="mb-4">
+                <MovieCard
+                  movie={movie}
+                  onMovieClick={(newSelectedMovie) => {
+                    setSelectedMovie(newSelectedMovie);
+                  }}
+                />
+              </Col>
+            ))}
+            <button
+              onClick={() => {
+                setUser(null);
+                setToken(null);
+                localStorage.clear();
+              }}
+            >
+              Logout
+            </button>
+          </>
+        )}
+      </Row>
+    </Container>
   );
 };

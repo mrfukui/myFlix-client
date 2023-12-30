@@ -12,9 +12,10 @@ import {
 import { Link, useParams } from "react-router-dom";
 
 export const MovieView = ({ movies }) => {
-  console.log("Movies array:", movies);
-  // console.log("Movie ID from URL:", movieId);
   const { movieId } = useParams();
+
+  console.log("Movies array:", movies);
+  console.log("Movie ID from URL:", movieId);
 
   const movie = movies.find((m) => m.id === movieId);
 
@@ -23,32 +24,20 @@ export const MovieView = ({ movies }) => {
   }
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
-        <Col>
+        <Col xs={12} md={8} lg={6} className="mx-auto">
           <CardGroup>
-            <Card>
+            <Card className="border-0">
+              <Card.Img src={movie.image} />
               <Card.Body>
-                <Container>
-                  <Row>
-                    <Col>
-                      <CardGroup>
-                        <Card>
-                          <Card.Img src={movie.image} />
-                          <Card.Body>
-                            <Card.Title>{movie.title}</Card.Title>
-                            <Card.Text>{movie.description}</Card.Text>
-                            <Card.Text>Genre: {movie.genre}</Card.Text>
-                            <Card.Text>Director: {movie.director}</Card.Text>
-                            <Link to="/">
-                              <Button>Back</Button>
-                            </Link>
-                          </Card.Body>
-                        </Card>
-                      </CardGroup>
-                    </Col>
-                  </Row>
-                </Container>
+                <Card.Title>{movie.title}</Card.Title>
+                <Card.Text>{movie.description}</Card.Text>
+                <Card.Text>Genre: {movie.genre}</Card.Text>
+                <Card.Text>Director: {movie.director}</Card.Text>
+                <Link to="/">
+                  <Button>Back</Button>
+                </Link>
               </Card.Body>
             </Card>
           </CardGroup>

@@ -86,11 +86,11 @@ export const SignupView = () => {
                     <Form.Control
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => setBirthday(e.target.value)}
                       required
                     />
                   </Form.Group>
-                  <Button variant="primary" type="submit">
+                  <Button className="mt-3" variant="primary" type="submit">
                     Submit
                   </Button>
                 </Form>

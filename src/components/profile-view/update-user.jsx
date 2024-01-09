@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Container,
-  Button,
-  Card,
-  CardGroup,
-  Form,
-} from "react-bootstrap";
+import { Col, Button, Card, Form } from "react-bootstrap";
 
 export const UpdateUser = () => {
   const [username, setUsername] = useState("");
@@ -114,8 +106,8 @@ export const UpdateUser = () => {
           <Form.Group controlId="formBirthday">
             <Form.Label>Birthday:</Form.Label>
             <Form.Control
-              type="email"
-              value={email}
+              type="date"
+              value={birthday}
               onChange={(e) => setBirthday(e.target.value)}
             />
           </Form.Group>

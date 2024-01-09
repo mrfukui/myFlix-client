@@ -9,20 +9,29 @@ import { Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./main-view.scss";
 
+//Export MainView component
 export const MainView = () => {
+  //state variable to retrieve stored user
   const storedUser = JSON.parse(localStorage.getItem("user"));
+  //state variable to retrieve stored token
   const storedToken = localStorage.getItem("token");
+  //state variable to store which user is present
   const [user, setUser] = useState(storedUser ? storedUser : null);
+  //state variable to store which token is present
   const [token, setToken] = useState(null);
+  //state variable to store array of movies
   const [movies, setMovies] = useState([]);
+  //state variable to store what users input in the search bar
   const [searchInput, setSearchInput] = useState("");
 
+  //create variable that changes searched input into all lowercase letters
   const searchedMovies = movies.filter((movie) => {
     if (searchInput) {
       return movie.title.toLowerCase().includes(searchInput.toLowerCase());
     }
   });
 
+  //fetch movie data from API using stored token
   useEffect(() => {
     if (!token) {
       return;
@@ -48,6 +57,7 @@ export const MainView = () => {
       });
   }, [token]);
 
+  //add movie to user's favorite movie list
   const addFavorite = (id) => {
     fetch(
       `https://my-flix-fukui-fbfc1615b505.herokuapp.com/users/${user.username}/movies/${id}`,
@@ -76,6 +86,7 @@ export const MainView = () => {
       });
   };
 
+  //remove movie from user's favorite movie list
   const removeFavorite = (id) => {
     fetch(
       `https://my-flix-fukui-fbfc1615b505.herokuapp.com/users/${user.username}/movies/${id}`,
@@ -105,6 +116,7 @@ export const MainView = () => {
   };
 
   return (
+    //BrowserRouter enables SPA(single page application)
     <BrowserRouter>
       <NavigationBar
         user={user}
@@ -120,6 +132,7 @@ export const MainView = () => {
       />
       <Row className="d-flex justify-content-center">
         <Routes>
+          {/* Sign-up page */}
           <Route
             path="/signup"
             element={
@@ -138,6 +151,7 @@ export const MainView = () => {
               </>
             }
           />
+          {/* Login page */}
           <Route
             path="/login"
             element={
@@ -161,6 +175,7 @@ export const MainView = () => {
               </>
             }
           />
+          {/*Movie view*/}
           <Route
             path="/movies/:movieId"
             element={
@@ -177,6 +192,7 @@ export const MainView = () => {
               </>
             }
           />
+          {/*Searched movies list*/}
           <Route
             path="/"
             element={
@@ -205,6 +221,7 @@ export const MainView = () => {
                     ))}
                   </Row>
                 ) : (
+                  //Movies list
                   <>
                     {movies.map((movie) => (
                       <Col
@@ -227,6 +244,7 @@ export const MainView = () => {
               </>
             }
           />
+          {/*Profile view*/}
           <Route
             path="/profile"
             element={

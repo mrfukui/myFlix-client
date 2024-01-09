@@ -4,6 +4,7 @@ import { Card, Button, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./movie-card.scss";
 
+//create MovieCard component
 export const MovieCard = ({ movie, user, token, setUser, showButton }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -13,6 +14,7 @@ export const MovieCard = ({ movie, user, token, setUser, showButton }) => {
     }
   }, [user]);
 
+  //adds movie to user's favorite movie list
   const addFavoriteMovie = () => {
     console.log(`${token}`);
     fetch(
@@ -39,6 +41,7 @@ export const MovieCard = ({ movie, user, token, setUser, showButton }) => {
       });
   };
 
+  //removes movie from user's favorite movie list
   const removeFavoriteMovie = () => {
     fetch(
       `https://my-flix-fukui-fbfc1615b505.herokuapp.com/users/${user.username}/movies/${movie.id}`,

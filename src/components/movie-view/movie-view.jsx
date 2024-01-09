@@ -1,24 +1,16 @@
 import "./movie-view.scss";
-import {
-  Row,
-  Col,
-  Container,
-  Button,
-  Card,
-  CardGroup
-} from "react-bootstrap";
+import { Row, Col, Container, Button, Card, CardGroup } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 
+//creates MovieView component
 export const MovieView = ({ movies }) => {
+  //uses the URL to set movieId
   const { movieId } = useParams();
-
-  console.log("Movies array:", movies);
-  console.log("Movie ID from URL:", movieId);
-
+  //matches movieId found in URL to id found in the movie array
   const movie = movies.find((m) => m.id === movieId);
 
   if (!movie) {
-    return <div>Movie not found</div>; // You can display a message or redirect here
+    return <div>Movie not found</div>;
   }
 
   return (

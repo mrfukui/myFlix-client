@@ -10,11 +10,11 @@ Check out the live website [here!](https://fukuis-flixes.netlify.app/)
 
 ## Technologies Used:
 
--HTML5
--CSS3
--JavaScript
--Parcel
--MERN(MongoDB, Express.js, React, Node.js)
+- HTML5
+- CSS3
+- JavaScript
+- Parcel
+- MERN(MongoDB, Express.js, React, Node.js)
 
 ## Get The Project Running
 
@@ -30,4 +30,4 @@ This app is licensed under the GNU License. See [LICENSE.](LICENSE)
 
 ## Acknowledgments:
 
--CareerFoundry for guidance in building this app.
+- CareerFoundry for guidance in building this app.

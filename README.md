@@ -8,6 +8,11 @@ This app allows movie enthusiasts to access information on their favorite movies
 
 Check out the live website [here!](https://fukuis-flixes.netlify.app/)
 
+## Screenshots of Application:
+
+![Screenshot](<img/Screenshot%20(236).png>)
+![Screenshot](<img/Screenshot%20(237).png>)
+
 ## Technologies Used:
 
 - HTML5
